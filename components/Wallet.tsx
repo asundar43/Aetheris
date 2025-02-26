@@ -57,82 +57,65 @@ export default function Wallet() {
     dispatch({ type: "idle" });
   };
 
-  return (
-    <div className="bg-truffle">
-      <div className="mx-auto max-w-2xl py-16 px-4 text-center sm:py-20 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-          <span className="block">Metamask API intro</span>
-        </h2>
-        <p className="mt-4 text-lg leading-6 text-white">
-          Follow along with the{" "}
-          <Link
-            href="https://github.com/GuiBibeau/web3-unleashed-demo"
-            target="_blank"
-          >
-            <span className="underline cursor-pointer">Repo</span>
-          </Link>{" "}
-          in order to learn how to use the Metamask API.
-        </p>
+  const overlayVisible = !isConnected;
 
-        {wallet && balance && (
-          <div className=" px-4 py-5 sm:px-6">
-            <div className="-ml-4 -mt-4 flex flex-wrap items-center justify-between sm:flex-nowrap">
-              <div className="ml-4 mt-4">
-                <div className="flex items-center">
-                  <div className="ml-4">
-                    <h3 className="text-lg font-medium leading-6 text-white">
-                      Address: <span>{wallet}</span>
-                    </h3>
-                    <p className="text-sm text-white">
-                      Balance:{" "}
-                      <span>
-                        {(parseInt(balance) / 1000000000000000000).toFixed(4)}{" "}
-                        ETH
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
+  return overlayVisible ? (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white p-8 rounded-lg shadow-lg">
+        <div className="mx-auto max-w-2xl py-16 px-4 text-center sm:py-20 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold tracking-tight text-black sm:text-4xl">
+            <span className="block">Sign into Aetheris</span>
+          </h2>
+          <p className="mt-4 text-lg leading-6 text-black">
+            Your Decentralized Governance AI Advisor
+          </p>
+
+          {wallet && balance && (
+            <div className="bg-gray-100 p-6 rounded-lg shadow-md mt-6">
+              <p className="text-lg font-semibold mb-2 text-black">Address:</p>
+              <p className="text-lg font-mono mb-4 truncate border border-gray-300 p-2 rounded text-black">{wallet}</p>
+              <p className="text-lg font-semibold mb-2 text-black">Balance:</p>
+              <p className="text-lg font-mono mb-4 border border-gray-300 p-2 rounded text-black">{balance}</p>
             </div>
-          </div>
-        )}
+          )}
 
-        {showConnectButton && (
-          <button
-            onClick={handleConnect}
-            className="mt-8 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-ganache text-white px-5 py-3 text-base font-medium  sm:w-auto"
-          >
-            {status === "loading" ? <Loading /> : "Connect Wallet"}
-          </button>
-        )}
-
-        {showInstallMetamask && (
-          <Link
-            href="https://metamask.io/"
-            target="_blank"
-            className="mt-8 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-ganache text-white px-5 py-3 text-base font-medium  sm:w-auto"
-          >
-            Install Metamask
-          </Link>
-        )}
-
-        {isConnected && (
-          <div className="flex  w-full justify-center space-x-2">
+          {showConnectButton && (
             <button
-              onClick={handleAddUsdc}
-              className="mt-8 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-ganache text-white px-5 py-3 text-base font-medium  sm:w-auto"
+              onClick={handleConnect}
+              className="mt-8 inline-flex items-center justify-center rounded-full border border-blue-500 text-black px-5 py-3 text-base font-medium hover:bg-blue-500 hover:text-white transition"
             >
-              {status === "loading" ? <Loading /> : "Add Token"}
+              {status === "loading" ? <Loading /> : "Connect Wallet"}
             </button>
-            <button
-              onClick={handleDisconnect}
-              className="mt-8 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-ganache text-white px-5 py-3 text-base font-medium  sm:w-auto"
+          )}
+
+          {showInstallMetamask && (
+            <Link
+              href="https://metamask.io/"
+              target="_blank"
+              className="mt-8 inline-flex items-center justify-center rounded-full border border-blue-500 text-black px-5 py-3 text-base font-medium hover:bg-blue-500 hover:text-white transition"
             >
-              Disconnect
-            </button>
-          </div>
-        )}
+              Install Metamask
+            </Link>
+          )}
+
+          {isConnected && (
+            <div className="flex justify-center space-x-2 mt-6">
+              <button
+                onClick={handleAddUsdc}
+                className="inline-flex items-center justify-center rounded-full border border-blue-500 text-black px-5 py-3 text-base font-medium hover:bg-blue-500 hover:text-white transition"
+              >
+                {status === "loading" ? <Loading /> : "Add Token"}
+              </button>
+              <button
+                onClick={handleDisconnect}
+                className="inline-flex items-center justify-center rounded-full border border-red-500 text-black px-5 py-3 text-base font-medium hover:bg-red-500 hover:text-white transition"
+              >
+                Disconnect
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
-  );
+  ) : null;
 }
